@@ -25,11 +25,9 @@ export const postUser =  async (req: Request, res: Response, next: NextFunction)
   try {
     const userResult = await newUser.save();
 
-    console.log(userResult);
+    return res.redirect('/');
   } catch (err) {
     console.error(err);
+    return res.redirect('/');
   }
-
-  res.write('<h1>Post User</h1>');
-  res.end();
 };
