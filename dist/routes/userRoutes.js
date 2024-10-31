@@ -26,8 +26,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const userController = __importStar(require("../controllers/user/userController"));
+const validation_1 = require("../controllers/user/validation");
 const router = (0, express_1.Router)();
-router.get('/signup', userController.getSignup);
+router.get('/signup', validation_1.validateSignupForm, userController.getSignup);
 router.get('/login', userController.getLogin);
 router.post('/user/create', (0, express_validator_1.body)('username')
     .notEmpty()
