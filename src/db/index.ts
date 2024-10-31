@@ -2,8 +2,10 @@ import { Db, MongoClient } from 'mongodb';
 
 let _db!: Db;
 
+export const connectionString = "mongodb+srv://salehabuhussein:3996949@cluster0.oa8cj.mongodb.net/shop";
+
 export const mongoConnect = (callback: () => void) => {
-  MongoClient.connect("mongodb+srv://salehabuhussein:3996949@cluster0.oa8cj.mongodb.net/shop")
+  MongoClient.connect(connectionString)
   .then(client => {
     client.db()
       _db = client.db();

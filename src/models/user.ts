@@ -62,7 +62,11 @@ export default class User {
    #addUser(): Promise<InsertOneResult<Document>> {
     const db = getDb();
 
-    return db.collection('users').insertOne(this);
+    return db.collection('users').insertOne({
+      username: this.username,
+      email: this.email,
+      password: this.password,
+    });
    }
 
    /**

@@ -12,4 +12,4 @@ export const validateSignupForm = (req: Request, res: Response, next: NextFuncti
     }
 
     next();
-}
+};
