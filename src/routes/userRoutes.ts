@@ -2,12 +2,12 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 
 import * as userController from '../controllers/user/userController';
-import { validateSignupForm } from '../controllers/user/validation';
+import { showSignupFieldsError, showLoginFieldsError } from '../controllers/user/validation';
 
 const router = Router();
 
-router.get('/signup', validateSignupForm, userController.getSignup);
-router.get('/login', userController.getLogin);
+router.get('/signup', showSignupFieldsError, userController.getSignup);
+router.get('/login', showLoginFieldsError, userController.getLogin);
 
 router.post('/user/create', 
   body('username')
