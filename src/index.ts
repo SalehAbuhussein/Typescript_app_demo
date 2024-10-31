@@ -1,7 +1,8 @@
+import bodyParser from 'body-parser';
 import express from 'express';
 import flash from 'express-flash';
 import session from 'express-session';
-import bodyParser from 'body-parser';
+
 import { mongoConnect } from './db/index';
 
 import homeRoutes from './routes/homeRoutes';
