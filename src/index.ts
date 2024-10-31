@@ -1,15 +1,14 @@
 import express from 'express';
-const app = express();
-
 import flash from 'express-flash';
 import session from 'express-session';
-
-import { mongoConnect } from './db/index';
 import bodyParser from 'body-parser';
-const PORT = 3000;
+import { mongoConnect } from './db/index';
 
 import homeRoutes from './routes/homeRoutes';
 import userRoutes from './routes/userRoutes';
+
+const app = express();
+const PORT = 3000;
 
 app.set('view engine', 'ejs');
 

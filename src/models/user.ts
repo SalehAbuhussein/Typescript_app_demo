@@ -1,12 +1,12 @@
-import { ObjectId } from 'mongodb';
+import { DeleteResult, InsertOneResult, ObjectId, UpdateResult, WithId } from 'mongodb';
 import { getDb } from '../db';
 
 export default class User {
-  id: number = -1;
-  username = '';
-  email = '';
-  password = '';
-  mode: 'new' | 'update' = 'new'
+	 id: number = -1;
+	 username = '';
+	 email = '';
+	 password = '';
+	 mode: 'new' | 'update' = 'new';
 
    constructor(username: string, email: string, password: string) {
     this.username = username;
@@ -15,28 +15,36 @@ export default class User {
     this.mode = 'new';
    }
 
-   static async findById(id: number) {
+   /**
+    * Find User by ID if not found return null
+    * 
+    * @param id user id
+    * @returns { Promise<WithId<Document> | null> }
+    */
+   static async findById(id: number): Promise<WithId<Document> | null> {
     const db = getDb();
 
-    return db.collection('users').findOne({ _id: new ObjectId(id) });
-
-    // if (result) {
-    //   const user = new User(id, result.username, result.email, result.password);
-    //   user.mode = 'update';
-
-    //   return user;
-    // } else {
-    //   return null;
-    // }
+    return db.collection('users').findOne({ _id: new ObjectId(id) }) as Promise<WithId<Document> | null> ;
    }
 
-   static deleteById(id: number) {
+   /**
+    * Delete User by passing ID
+    * 
+    * @param id user id
+    * @returns { Promise<DeleteResult> }
+    */
+   static deleteById(id: number): Promise<DeleteResult> {
     const db = getDb();
 
     return db.collection('users').deleteOne({ _id: new ObjectId(id) });
    }
 
-   save() {
+   /**
+    * Add or Update User based on the mode and add to database
+    * 
+    * @returns { Promise<InsertOneResult<Document>> | Promise<UpdateResult<Document>> }
+    */
+   save(): Promise<InsertOneResult<Document>> | Promise<UpdateResult<Document>> {
     switch (this.mode) {
       case 'new':
         return this.#addUser();
@@ -45,13 +53,23 @@ export default class User {
     }
    }
 
-   #addUser() {
+   /**
+    * Add new user
+    * 
+    * @returns { Promise<InsertOneResult<Document>> }
+    */
+   #addUser(): Promise<InsertOneResult<Document>> {
     const db = getDb();
 
     return db.collection('users').insertOne(this);
    }
 
-   #updateUser() {
+   /**
+    * Update the current User and reflect that in the database
+    * 
+    * @returns { Promise<UpdateResult<Document>> }
+    */
+   #updateUser(): Promise<UpdateResult<Document>> {
     const db = getDb();
 
     return db.collection('users').updateOne({ _id: new ObjectId(this.id) }, { $set: this });
