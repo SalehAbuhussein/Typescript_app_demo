@@ -1,4 +1,5 @@
 import { DeleteResult, InsertOneResult, ObjectId, UpdateResult, WithId } from 'mongodb';
+
 import { getDb } from '../db';
 
 export default class User {

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
+
 import * as userController from '../controllers/user/userController';
 import { validateSignupForm } from '../controllers/user/validation';
 
