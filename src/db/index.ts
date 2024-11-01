@@ -1,6 +1,4 @@
-import { Db, MongoClient } from 'mongodb';
-
-let _db!: Db;
+import mongoose from 'mongoose';
 
 export const connectionString = "mongodb+srv://salehabuhussein:3996949@cluster0.oa8cj.mongodb.net/shop";
 
@@ -10,31 +8,14 @@ export const connectionString = "mongodb+srv://salehabuhussein:3996949@cluster0.
  * Then fire the callback which is listening to the server in this case
  * 
  * @param { void } callback 
- * @returns { void }
+ * @returns { Promise<void> }
  */
-export const mongoConnect = (callback: () => void): void => {
-  MongoClient.connect(connectionString)
-  .then(client => {
-    client.db()
-      _db = client.db();
-      callback();
-  })
-  .catch(err => {
+export const mongoConnect = async (callback: () => void): Promise<void> => {
+  try {
+    await mongoose.connect(connectionString);
+    callback();
+  } catch (err) {
     console.log(err);
     throw(err);
-  });
-};
-
-/**
- * MongoClient getter if it exist
- * otherwise throw error
- * 
- * @returns { Db }
- */
-export const getDb = () => {
-  if (_db) {
-    return _db;
   }
-
-  throw "No database found!";
 };

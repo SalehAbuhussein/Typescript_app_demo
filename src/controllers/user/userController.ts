@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
-import User from '../../models/user';
+import User, { IUser } from '../../models/user';
+import { HydratedDocument } from 'mongoose';
 
 type PostUserBody = { username: string, email: string, password: string };
 
@@ -46,10 +47,10 @@ export const getSignup = (req: Request, res: Response, next: NextFunction): void
 export const postUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const body: PostUserBody = req.body;
 
-  const newUser = new User(body.username, body.email, body.password);
+  const newUser: HydratedDocument<IUser> = new User({ username: body.username, email: body.email, password: body.password });
 
   try {
-    const userResult = await newUser.save();
+    await newUser.save();
 
     return res.redirect('/');
   } catch (err) {
